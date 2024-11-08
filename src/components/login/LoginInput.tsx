@@ -10,7 +10,7 @@ const LoginInput = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          'flex w-full rounded-lg border border-[#E4E4E4] bg-background px-4 py-3 text-base text-[#1B1B1B] ring-offset-background placeholder:text-[#ADADAD] focus:outline-none focus:border-[#3A74FE] focus:ring-[#3A74FE] focus:ring-1 disabled:cursor-not-allowed disabled:opacity-40',
+          'flex w-full rounded-lg border border-gray-100 bg-background px-4 py-3 text-base text-black ring-offset-background placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-primary focus:ring-1 disabled:cursor-not-allowed disabled:opacity-40',
           className
         )}
         ref={ref}

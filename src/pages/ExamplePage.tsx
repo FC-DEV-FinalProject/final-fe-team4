@@ -13,7 +13,7 @@ import {
   SaveButton,
   UploadButton,
 } from '@/components/ui/IconButton';
-import Tooltip from '@/components/ui/tooltip';
+import Tooltip from '@/components/ui/Tooltip';
 
 const ExamplePage = () => {
   const [items, setItems] = useState([
