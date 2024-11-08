@@ -1,6 +1,4 @@
-'use client';
-
-import { throttle } from 'lodash';
+import throttle from 'lodash.throttle';
 import * as React from 'react';
 import WaveSurfer, { WaveSurferOptions } from 'wavesurfer.js';
 
@@ -38,14 +36,21 @@ const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
           progressColor: '#356ae7',
           cursorColor: 'transparent',
           barWidth: 2,
-          barGap: 3,
+          barGap: 2,
           height: 36,
           normalize: true,
           interact: true,
-          minPxPerSec: 30,
+          minPxPerSec: 60,
           fillParent: true,
+          barRadius: 0,
+          cursorWidth: 0,
+          mediaControls: false,
+          splitChannels: [
+            {
+              overlay: false,
+            },
+          ],
         };
-
         try {
           wavesurfer = WaveSurfer.create(options);
           wavesurferRef.current = wavesurfer;

@@ -1,5 +1,5 @@
 import { AlignJustify, LayoutGrid } from 'lucide-react';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -9,6 +9,11 @@ interface ViewButtonProps {
   onClick: () => void;
   position: 'left' | 'right';
   ariaLabel: string;
+}
+
+interface ViewButtonGroupProps {
+  isListView: boolean;
+  onViewChange: (isListView: boolean) => void;
 }
 
 const ViewButton: React.FC<ViewButtonProps> = ({
@@ -23,7 +28,7 @@ const ViewButton: React.FC<ViewButtonProps> = ({
       onClick={onClick}
       aria-label={ariaLabel}
       className={cn(
-        ' flex items-center justify-center p-1.5 transition-colors border w-7 h-6',
+        'flex items-center justify-center p-1.5 transition-colors border w-7 h-6',
         position === 'left' ? 'rounded-l-full' : 'rounded-r-full',
         isSelected ? 'bg-blue-50 border-blue-600 text-blue-600' : 'border-gray-300'
       )}
@@ -33,24 +38,22 @@ const ViewButton: React.FC<ViewButtonProps> = ({
   );
 };
 
-const ViewButtonGroup: React.FC = () => {
-  const [isListView, setIsListView] = useState(true);
-
+const ViewButtonGroup: React.FC<ViewButtonGroupProps> = ({ isListView, onViewChange }) => {
   return (
     <div className="flex rounded-full border-blue-500">
       <ViewButton
         label={<AlignJustify />}
         isSelected={isListView}
-        onClick={() => setIsListView(true)}
+        onClick={() => onViewChange(true)}
         position="left"
-        ariaLabel="리스트 보기"
+        ariaLabel="list"
       />
       <ViewButton
         label={<LayoutGrid />}
         isSelected={!isListView}
-        onClick={() => setIsListView(false)}
+        onClick={() => onViewChange(false)}
         position="right"
-        ariaLabel="그리드 보기"
+        ariaLabel="grid"
       />
     </div>
   );

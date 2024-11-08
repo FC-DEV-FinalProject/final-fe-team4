@@ -32,7 +32,11 @@ const TextRow: React.FC<TextRowProps> = ({
 
   return (
     <div className="flex items-center p-4 border-b">
-      <Checkbox checked={isSelected} onChange={() => onSelectionChange(id)} className="ml-2 mr-2" />
+      <Checkbox
+        checked={isSelected}
+        onCheckedChange={() => onSelectionChange(id)}
+        className="ml-2 mr-2"
+      />
       <PlayButton onClick={onPlay} className="ml-2 mr-2 w-5 h-5" />
       <TextInput
         value={text}
