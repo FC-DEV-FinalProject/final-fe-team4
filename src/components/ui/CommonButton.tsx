@@ -34,13 +34,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[#3A74FE] text-[color:var(--White,var(--Color,#FFF))] font-semibold hover:bg-[#356AE7] active:bg-[#2952B4] disabled:opacity-40 disabled:bg-[#3A74FE]',
+          'bg-primary text-white font-semibold hover:bg-blue-600 active:bg-blue-700 disabled:opacity-40 disabled:bg-primary',
         secondary: [
-          'border border-[#C4C4C4] rounded-lg font-medium',
-          'bg-[var(--Color,#FFF)] text-[#5C5C5C]',
-          'hover:bg-[#F7F7F7] hover:text-[#1B1B1B]',
-          'active:bg-[#E4E4E4] active:text-[#1B1B1B]',
-          'disabled:bg-[var(--Color,#FFF)] disabled:text-[#C4C4C4] disabled:cursor-not-allowed',
+          'border border-gray-300 rounded-lg font-medium',
+          'bg-white text-gray-500',
+          'hover:bg-gray-50 hover:text-black',
+          'active:bg-gray-100 active:text-black',
+          'disabled:bg-white disabled:text-gray-300 disabled:cursor-not-allowed',
         ],
       },
       size: {
