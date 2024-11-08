@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/CommonButton';
-import Tooltip from '@/components/ui/tooltip';
+import Tooltip from '@/components/ui/Tooltip';
 
 const ExamplePage = () => {
   return (
