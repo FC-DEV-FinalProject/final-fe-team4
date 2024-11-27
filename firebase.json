@@ -8,6 +8,26 @@
     ],
     "rewrites": [
       {
+        "source": "/tts/**",
+        "destination": "https://mock.popomance.kr/tts/**"
+      },
+      {
+        "source": "/vc/**",
+        "destination": "https://mock.popomance.kr/vc/**"
+      },
+      {
+        "source": "/voice-style/**",
+        "destination": "https://mock.popomance.kr/voice-style/**"
+      },
+      {
+        "source": "/concat/**",
+        "destination": "https://mock.popomance.kr/concat/**"
+      },
+      {
+        "source": "/member/**",
+        "destination": "https://mock.popomance.kr/member/**"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
