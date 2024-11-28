@@ -138,7 +138,7 @@ const MainContents = ({
           <TableContents
             items={items}
             isAllSelected={isAllSelected}
-            onSelectAll={() => onSelectAll()}
+            onSelectAll={onSelectAll}
             onSelectionChange={onSelectionChange}
             onTextChange={onTextChange!}
             onDelete={onDelete}
