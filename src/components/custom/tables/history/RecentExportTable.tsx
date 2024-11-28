@@ -1,4 +1,5 @@
 import { TbChevronRight, TbCircleFilled, TbDownload } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 
 import { PlayButton } from '@/components/custom/buttons/PlayButton';
 import { Badge } from '@/components/ui/badge';
@@ -52,6 +53,7 @@ export function RecentExportTable({
   onPause,
   currentPlayingId,
 }: RecentExportTableProps) {
+  const navigate = useNavigate();
   const AudioBadge = (type: 'VC' | 'TTS' | 'CONCAT') => {
     const variant = type.toLowerCase() as 'vc' | 'tts' | 'concat';
     return <Badge variant={variant}>{type}</Badge>;
@@ -61,7 +63,10 @@ export function RecentExportTable({
     <div className="pt-6 h-auto">
       <div className="flex flex-col md:flex-row items-center justify-between mb-4">
         <h3 className="text-h3">최근 내보내기</h3>
-        <p className="text-black text-body2 flex items-center gap-1 cursor-pointer">
+        <p
+          onClick={() => navigate('/Historys')}
+          className="text-black text-body2 flex items-center gap-1 cursor-pointer"
+        >
           전체보기
           <TbChevronRight className="w-6 h-6" />
         </p>

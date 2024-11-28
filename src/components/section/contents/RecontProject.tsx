@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import { TbChevronLeft, TbChevronRight } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 
 import RecentProjectCard from '@/components/custom/cards/RecentProjectCard';
-
 //더미 데이터
 const projects = [
   {
@@ -58,6 +58,7 @@ const projects = [
 ];
 
 const RecentProject = () => {
+  const navigate = useNavigate();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isScrolledLeft, setIsScrolledLeft] = useState(false);
   const [isScrolledRight, setIsScrolledRight] = useState(projects.length > 4);
@@ -81,7 +82,10 @@ const RecentProject = () => {
     <div className="pt-8 h-auto">
       <div className="flex flex-col md:flex-row items-center justify-between mb-4">
         <h3 className="text-h3">최근 프로젝트</h3>
-        <p className="text-black text-body2 flex items-center gap-1 cursor-pointer">
+        <p
+          onClick={() => navigate('/projects')}
+          className="text-black text-body2 flex items-center gap-1 cursor-pointer"
+        >
           전체보기
           <TbChevronRight className="w-6 h-6" />
         </p>

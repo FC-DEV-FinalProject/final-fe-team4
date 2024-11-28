@@ -1,15 +1,15 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import HomePopup from '@/components/custom/guide/HomePopup';
 import { RecentExportTable } from '@/components/custom/tables/history/RecentExportTable';
-import RecentProject from '@/components/section/contents/home/RecontProject';
+import RecentProject from '@/components/section/contents/RecontProject';
 import MainHeader from '@/components/section/header/MainHeader';
 import jisuImage from '@/images/avatar/jisu.jpg';
 import PageLayout from '@/layouts/PageLayout';
-
 const HomePage = () => {
   const [currentPlayingId, setCurrentPlayingId] = useState<string>();
-
+  const navigate = useNavigate();
   const historyItems = [
     {
       id: '1',
@@ -74,7 +74,7 @@ const HomePage = () => {
           name="김바타"
           email="aipark@aipark.ai"
           imageUrl={jisuImage}
-          onMyPage={() => console.log('마이페이지')}
+          onMyPage={() => navigate('/mypage')}
           onSignout={() => console.log('로그아웃')}
         />
       }

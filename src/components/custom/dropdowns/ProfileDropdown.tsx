@@ -21,7 +21,7 @@ interface ProfileDropdownProps {
 }
 
 const ProfileDropdown = React.forwardRef<HTMLDivElement, ProfileDropdownProps>(
-  ({ name, email, imageUrl, onMyPage, onSignout, className }, ref) => {
+  ({ name, email, onMyPage, imageUrl, onSignout, className }, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (

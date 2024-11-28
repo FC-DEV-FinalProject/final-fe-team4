@@ -3,14 +3,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ttsLoad } from '@/api/aIParkAPI';
 import { saveTTSProject } from '@/api/ttsApi';
 import { FileProgressItem } from '@/components/custom/dropdowns/FileProgressDropdown';
-import ProjectMainContents from '@/components/section/contents/project/ProjectMainContents';
-import ProjectTitle from '@/components/section/contents/project/ProjectTitle';
+import MainContents from '@/components/section/contents/MainContents';
+import Title from '@/components/section/contents/Title';
 import AudioFooter from '@/components/section/footer/AudioFooter';
 import { FileProgressHeader } from '@/components/section/header/FileProgressHeader';
 import TTSOptionsSidebar from '@/components/section/sidebar/TTSSidebar';
 import jisuImage from '@/images/avatar/jisu.jpg';
 import PageLayout from '@/layouts/PageLayout';
 import { ttsInitialSettings, useTTSStore } from '@/stores/tts.store';
+import { TableItem } from '@/types/table';
 
 const fileProgressDummy: FileProgressItem[] = [
   {
@@ -90,7 +91,7 @@ const TTSPage = () => {
           });
 
           const loadedItems = ttsDetails.map((detail) => ({
-            id: String(detail.id),
+            id: detail.id ? String(detail.id) : '',
             text: detail.unitScript || '',
             isSelected: false,
             speed: detail.unitSpeed || ttsInitialSettings.speed,
@@ -118,7 +119,7 @@ const TTSPage = () => {
       const response = await saveTTSProject({
         ...projectData,
         ttsDetails: items.map((item) => ({
-          id: parseInt(item.id),
+          id: item.id ? Number(item.id) : null,
           unitScript: item.text,
           unitSpeed: item.speed,
           unitVolume: item.volume,
@@ -169,13 +170,13 @@ const TTSPage = () => {
       footer={<AudioFooter audioUrl="/sample.mp3" />}
       children={
         <>
-          <ProjectTitle
+          <Title
             type="TTS"
             projectTitle={projectData.projectName ?? '새 프로젝트'}
             onProjectNameChange={updateProjectName} // 이름 변경 핸들러 추가
             onSave={handleSaveProject}
           />
-          <ProjectMainContents
+          <MainContents
             type="TTS"
             items={items}
             isAllSelected={isAllSelected}
@@ -183,11 +184,34 @@ const TTSPage = () => {
             onSelectionChange={toggleSelection}
             onTextChange={(id, text) => updateItem(id, { text })}
             onDelete={deleteSelectedItems}
-            onAdd={addItems}
+            onAdd={(newItems?: TableItem[]) => {
+              // TableItem[] -> TTSItem[]
+              if (!newItems) return;
+              const mappedItems = newItems.map((item) => ({
+                id: '',
+                text: item.text,
+                isSelected: false,
+                speed: ttsInitialSettings.speed,
+                volume: ttsInitialSettings.volume,
+                pitch: ttsInitialSettings.pitch,
+              }));
+              addItems(mappedItems);
+            }}
             onRegenerateItem={(id) => console.log('재생성 항목:', id)}
             onDownloadItem={(id) => console.log('다운로드 항목:', id)}
             onPlay={(id) => console.log('재생:', id)}
-            onReorder={handleReorder}
+            onReorder={(newItems) => {
+              // MainContentsItem[] -> TTSItem[]
+              const mappedItems = newItems.map((item) => ({
+                id: item.id,
+                text: item.text,
+                isSelected: item.isSelected,
+                speed: item.speed ?? ttsInitialSettings.speed,
+                volume: item.volume ?? ttsInitialSettings.volume,
+                pitch: item.pitch ?? ttsInitialSettings.pitch,
+              }));
+              handleReorder(mappedItems);
+            }}
           />
         </>
       }

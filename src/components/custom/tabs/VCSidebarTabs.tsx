@@ -3,7 +3,7 @@ import { TbFileMusic } from 'react-icons/tb';
 
 import KebabMenu from '@/components/custom/dropdowns/KebabMenu';
 import FileUploadBox from '@/components/custom/feature/FileUploadBox';
-import Pagination from '@/components/ui/pagination';
+// import Pagination from '@/components/ui/pagination';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 interface VoiceFile {
   id: string;
@@ -69,7 +69,7 @@ const VCSidebarTabs = () => {
       setCurrentPage(1);
     }
   }, [files.length]);
-  const totalPages = Math.ceil(files.length / filesPerPage);
+  // const totalPages = Math.ceil(files.length / filesPerPage);
   const currentFiles = files.slice((currentPage - 1) * filesPerPage, currentPage * filesPerPage);
   const FileListItem = ({ file }: { file: VoiceFile }) => (
     <div
@@ -143,11 +143,11 @@ const VCSidebarTabs = () => {
                   <FileListItem key={file.id} file={file} />
                 ))}
               </div>
-              <Pagination
+              {/* <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
-              />
+              /> */}
             </div>
           </TabsContent>
         </div>

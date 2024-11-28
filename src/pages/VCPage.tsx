@@ -1,10 +1,8 @@
 import { useCallback, useState } from 'react';
 
 import { AudioPlayer } from '@/components/custom/feature/AudioPlayer';
-import ProjectMainContents, {
-  ProjectMainContentsItem,
-} from '@/components/section/contents/project/ProjectMainContents';
-import ProjectTitle from '@/components/section/contents/project/ProjectTitle';
+import MainContents, { MainContentsItem } from '@/components/section/contents/MainContents';
+import Title from '@/components/section/contents/Title';
 import VCSidebar from '@/components/section/sidebar/VCSidebar';
 import PageLayout from '@/layouts/PageLayout';
 
@@ -58,7 +56,7 @@ const VCPage = () => {
     setItems((prev) => prev.map((item) => ({ ...item, isSelected: !isAllSelected })));
   }, [items]);
 
-  const handleReorder = useCallback((newItems: ProjectMainContentsItem[]) => {
+  const handleReorder = useCallback((newItems: MainContentsItem[]) => {
     setItems(newItems as VCItem[]);
   }, []);
 
@@ -69,13 +67,13 @@ const VCPage = () => {
       sidebar={<VCSidebar />}
       footer={<AudioPlayer audioUrl={''} />}
     >
-      <ProjectTitle
+      <Title
         type="VC"
         projectTitle="프로젝트 1"
         onSave={() => console.log('저장')}
         onClose={() => console.log('닫기')}
       />
-      <ProjectMainContents
+      <MainContents
         type="VC"
         items={items}
         showAlert={showAlert}

@@ -4,10 +4,10 @@ import Layout from '@/layouts/Layout';
 import AccountRecoveryPage from '@/pages/AccountRecoveryPage';
 import CONCATPage from '@/pages/CONCATPage';
 import ErrorPage from '@/pages/ErrorPage';
-import HistorysPage from '@/pages/HistorysPage';
+import HistoryPage from '@/pages/HistoryPage';
 import HomePage from '@/pages/HomePage';
 import MyPage from '@/pages/MyPage';
-import ProjectsPage from '@/pages/ProjectsPage';
+import ProjectPage from '@/pages/ProjectPage';
 import SigninPage from '@/pages/SigninPage';
 import SignupPage from '@/pages/SignupPage';
 import TTSPage from '@/pages/TTSPage';
@@ -17,8 +17,8 @@ const PATH = {
   HOME: '/',
   SIGNIN: '/signin',
   SIGNUP: '/signup',
-  PROJECTS: '/projects',
-  HISTORYS: '/Historys',
+  PROJECT: '/project',
+  HISTORY: '/history',
   ACCOUNT_RECOVERY_ID: '/find-id',
   ACCOUNT_RECOVERY_PW: '/find-pw',
   TTS: '/tts',
@@ -62,12 +62,12 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: PATH.PROJECTS,
-        element: <ProjectsPage />,
+        path: PATH.PROJECT,
+        element: <ProjectPage />,
       },
       {
-        path: PATH.HISTORYS,
-        element: <HistorysPage />,
+        path: PATH.HISTORY,
+        element: <HistoryPage />,
       },
       {
         path: PATH.TTS,

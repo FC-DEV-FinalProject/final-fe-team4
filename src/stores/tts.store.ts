@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 
 import { TTSSaveDto } from '@/api/aIParkAPI.schemas';
-import { ProjectMainContentsItem } from '@/components/section/contents/project/ProjectMainContents';
 
 export interface TTSItem {
   id: string;
@@ -45,7 +44,8 @@ interface TTSStore {
 
   // 테이블 액션
   setItems: (items: TTSItem[]) => void;
-  addItems: (newItems?: ProjectMainContentsItem[]) => void;
+  addItems: (newItems: TTSItem[]) => void;
+
   updateItem: (id: string, updates: Partial<TTSItem>) => void;
   deleteSelectedItems: () => void;
   toggleSelection: (id: string) => void;
@@ -63,7 +63,7 @@ interface TTSStore {
   applyToSelected: () => void;
   applyToAll: () => void;
 
-  handleReorder: (items: ProjectMainContentsItem[]) => void;
+  handleReorder: (items: TTSItem[]) => void;
 }
 
 const initialProjectData: TTSSaveDto = {
@@ -122,24 +122,13 @@ export const useTTSStore = create<TTSStore>((set, _get) => ({
 
   setItems: (items) => set({ items }),
 
-  addItems: (newItems) =>
+  addItems: function (newItems) {
     set((state) => {
       if (newItems && newItems.length > 0) {
-        const mappedItems = newItems.map((item) => ({
-          id: crypto.randomUUID(),
-          text: item.text ?? '',
-          isSelected: false,
-          speed: state.speed ?? ttsInitialSettings.speed,
-          volume: state.volume ?? ttsInitialSettings.volume,
-          pitch: state.pitch ?? ttsInitialSettings.pitch,
-          language: state.language ?? ttsInitialSettings.language,
-          voice: state.voice ?? ttsInitialSettings.voice,
-          style: state.style ?? ttsInitialSettings.style,
-        }));
-        return { items: [...state.items, ...mappedItems] };
+        return { items: [...state.items, ...newItems] };
       }
       const newItem: TTSItem = {
-        id: crypto.randomUUID(),
+        id: '',
         text: '',
         isSelected: false,
         speed: state.speed,
@@ -150,7 +139,8 @@ export const useTTSStore = create<TTSStore>((set, _get) => ({
         style: state.style,
       };
       return { items: [...state.items, newItem] };
-    }),
+    });
+  },
 
   updateItem: (id, updates) =>
     set((state) => ({
@@ -225,7 +215,7 @@ export const useTTSStore = create<TTSStore>((set, _get) => ({
       })),
     })),
 
-  handleReorder: (newItems: ProjectMainContentsItem[]) => {
+  handleReorder: (newItems: TTSItem[]) => {
     const convertedItems: TTSItem[] = newItems.map((item) => ({
       id: item.id,
       text: item.text,

@@ -8,10 +8,13 @@ export interface TableItem {
   fileName?: string;
 }
 
-export interface HistoryItem {
+export interface ProjectListTableItem {
   id: string;
-  text: string;
-  speed: number;
-  volume: number;
-  pitch: number;
+  order: string;
+  projectName: string;
+  fileName: string;
+  content: string;
+  type: 'VC' | 'TTS' | 'CONCAT';
+  status: '진행' | '대기중' | '실패' | '완료';
+  createdAt: string;
 }

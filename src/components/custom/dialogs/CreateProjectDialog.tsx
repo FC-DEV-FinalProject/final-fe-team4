@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { TbFileDatabase, TbFileMusic, TbFileTypography } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 
 import { DialogContent } from '@/components/ui/dialog';
+import { useProjectStore } from '@/stores/project.store';
 
 const features = [
   {
@@ -47,12 +49,18 @@ const features = [
 
 const CreateProjectDialogContent = () => {
   const navigate = useNavigate(); // useNavigate로 이동 기능 정의
+  const addProject = useProjectStore((state) => state.addProject);
+  const [projectName, setProjectName] = useState('새 프로젝트');
 
   // 프로젝트 생성 핸들러
-  const handleNewProject = (route: string) => {
+  const handleNewProject = (type: 'TTS' | 'VC' | 'CONCAT', route: string) => {
+    addProject({
+      name: projectName,
+      type: type,
+    });
     const initialProjectData = {
       projectId: null,
-      projectName: '새 프로젝트',
+      projectName: setProjectName('새 프로젝트'),
       voiceStyleId: 9,
       fullScript: '',
       globalSpeed: 1.0,
@@ -75,7 +83,16 @@ const CreateProjectDialogContent = () => {
           <div
             key={index}
             className="w-[344px] p-6 border rounded-lg shadow-sm cursor-pointer hover:shadow-lg transition-shadow duration-300"
-            onClick={() => handleNewProject(feature.route)} // 클릭 핸들러 추가
+            onClick={() =>
+              handleNewProject(
+                feature.title === 'Text to Speech'
+                  ? 'TTS'
+                  : feature.title === 'Voice Conversion'
+                    ? 'VC'
+                    : 'CONCAT',
+                feature.route
+              )
+            } // 클릭 핸들러 추가
           >
             <div
               className={`mt-9 w-[72px] h-[72px] ${feature.bgColor} flex items-center justify-center rounded-md mx-auto mb-6`}
