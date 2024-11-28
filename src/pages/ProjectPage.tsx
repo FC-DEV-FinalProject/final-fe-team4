@@ -73,7 +73,7 @@ const ProjectPage = () => {
           isSelected: selectedItems.includes(item.id),
         }))}
         isAllSelected={isAllSelected}
-        onSelectAll={(checked) => handleSelectAll(checked)}
+        onSelectAll={(checked = false) => handleSelectAll(checked)}
         onSelectionChange={(id) => handleSelectionChange(id, !selectedItems.includes(id))}
         onDelete={handleDelete}
         onAdd={() => {}}
