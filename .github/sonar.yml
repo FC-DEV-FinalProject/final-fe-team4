@@ -1,0 +1,77 @@
+name: SonarQube Analysis Comment
+
+on:
+  pull_request:
+    types: opened
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to analyze'
+        required: true
+        default: 'develop'
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: SonarQube Quality Gate
+        id: sonarqube-quality-gate
+        continue-on-error: true
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Get SonarQube Analysis Results
+        id: sonar-results
+        run: |
+          QUALITY_GATE=$(curl --silent -H "Authorization: Bearer ${{ secrets.SONAR_TOKEN }}" "${{ secrets.SONAR_HOST_URL }}api/qualitygates/project_status?projectKey=team4_fe" | jq -r '.projectStatus.status')
+          echo "QUALITY_GATE=$QUALITY_GATE" >> $GITHUB_OUTPUT
+          
+          ISSUES=$(curl --silent -H "Authorization: Bearer ${{ secrets.SONAR_TOKEN }}" "${{ secrets.SONAR_HOST_URL }}api/issues/search?componentKeys=team4_fe&resolved=false" | jq -r '.total')
+          echo "NEW_ISSUES=$ISSUES" >> $GITHUB_OUTPUT
+
+      # - name: Comment PR
+      #   if: always()
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       const qualityGateStatus = "${{ steps.sonar-results.outputs.QUALITY_GATE }}";
+      #       const newIssues = "${{ steps.sonar-results.outputs.NEW_ISSUES }}";
+
+      #       let statusEmoji;
+      #       if (qualityGateStatus === 'OK') {
+      #         statusEmoji = '✅';
+      #       } else {
+      #         statusEmoji = '❌';
+      #       }
+            
+      #       const comment = `## SonarQube 분석 결과 [ 바로가기 ](${{ secrets.SONAR_HOST_URL }}dashboard?id=team4_fe) 
+
+      #       ${statusEmoji} Quality Gate : **${qualityGateStatus}** 
+
+      #       🛑 코드 품질 이슈 : **${newIssues}** 개   
+
+
+      #       > 코드 품질향상을 위한 권장사항이며, 수정하지 않아도 무방합니다. 
+      #       > 하지만 더 멋진 코드가 될 수 있습니다. 😉
+            
+      #       `;
+            
+      #       await github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: comment
+      #       });
