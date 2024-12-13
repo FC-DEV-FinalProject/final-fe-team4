@@ -7,8 +7,6 @@ import {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
 
@@ -38,16 +36,6 @@ const PaginationFooter: React.FC<PaginationFooterProps> = ({
     }
 
     if (startPage > 1) {
-      items.push(
-        <PaginationItem key="first">
-          <PaginationLink
-            onClick={() => onPageChange(1)}
-            className="w-8 h-8 border rounded-md hover:bg-gray-50"
-          >
-            <TbChevronsLeft className="h-4 w-4" />
-          </PaginationLink>
-        </PaginationItem>
-      );
       if (startPage > 2) {
         items.push(
           <PaginationItem key="start-ellipsis">
@@ -82,16 +70,6 @@ const PaginationFooter: React.FC<PaginationFooterProps> = ({
           </PaginationItem>
         );
       }
-      items.push(
-        <PaginationItem key="last">
-          <PaginationLink
-            onClick={() => onPageChange(totalPages)}
-            className="w-8 h-8 border rounded-md hover:bg-gray-50"
-          >
-            <TbChevronsRight className="h-4 w-4" />
-          </PaginationLink>
-        </PaginationItem>
-      );
     }
 
     return items;
@@ -111,8 +89,9 @@ const PaginationFooter: React.FC<PaginationFooterProps> = ({
             <TbChevronsLeft className="h-4 w-4" />
           </PaginationLink>
         </PaginationItem>
+
         <PaginationItem>
-          <PaginationPrevious
+          <PaginationLink
             onClick={() => onPageChange(Math.max(1, currentPage - 1))}
             className={cn(
               'w-8 h-8 p-0 border rounded-md hover:bg-gray-50',
@@ -120,13 +99,13 @@ const PaginationFooter: React.FC<PaginationFooterProps> = ({
             )}
           >
             <TbChevronLeft className="h-4 w-4" />
-          </PaginationPrevious>
+          </PaginationLink>
         </PaginationItem>
 
         {renderPageNumbers()}
 
         <PaginationItem>
-          <PaginationNext
+          <PaginationLink
             onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
             className={cn(
               'w-8 h-8 p-0 border rounded-md hover:bg-gray-50',
@@ -134,8 +113,9 @@ const PaginationFooter: React.FC<PaginationFooterProps> = ({
             )}
           >
             <TbChevronRight className="h-4 w-4" />
-          </PaginationNext>
+          </PaginationLink>
         </PaginationItem>
+
         <PaginationItem>
           <PaginationLink
             onClick={() => onPageChange(totalPages)}

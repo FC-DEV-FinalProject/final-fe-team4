@@ -91,7 +91,7 @@ const TTSPage = () => {
   });
   const showAlert = useCallback((message: string, variant: 'default' | 'destructive') => {
     setAlert({ visible: true, message, variant });
-    setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+    setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
   }, []);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -102,12 +102,16 @@ const TTSPage = () => {
     const loadTTSProject = async () => {
       if (!id) {
         console.warn('ID가 없습니다.');
-        showAlert('프로젝트 데이터가 없음. 저장을 누르면 새 프로젝트가 저장됩니다.', 'destructive');
+        showAlert('저장을 누르면 새 프로젝트가 저장됩니다.', 'default');
+        setProjectData(initialProjectData);
+        setItems([]);
+        setHistoryItems([]);
         return;
       }
 
       setIsLoading(true); // 로딩 상태 업데이트
       try {
+        console.log('loadTTSProject 호출:', id);
         const response = await ttsLoad(Number(id));
         const { ttsProject, ttsDetails } = response.data;
 
@@ -143,7 +147,7 @@ const TTSPage = () => {
         }
       } catch (error) {
         console.error('TTS 프로젝트 로드 오류:', error);
-        showAlert('프로젝트 로드 중 오류가 발생했습니다.', 'destructive');
+        showAlert('프로젝트 로드에 실패했습니다.', 'destructive');
       } finally {
         setIsLoading(false);
       }
@@ -219,7 +223,7 @@ const TTSPage = () => {
     }
 
     try {
-      await uploadTTSProjectData(projectData, items, setProjectData);
+      await uploadTTSProjectData(projectData, items, setProjectData, setItems);
     } catch (error) {
       console.error('프로젝트 저장 오류:', error);
       showAlert('프로젝트 저장 중 오류가 발생했습니다.', 'destructive');
@@ -258,7 +262,15 @@ const TTSPage = () => {
     } finally {
       setIsGenerating(false);
     }
-  }, [projectData, items, setHistoryItems, setProjectData, checkIsValidToGenerate, showAlert]);
+  }, [
+    projectData,
+    items,
+    setHistoryItems,
+    setProjectData,
+    checkIsValidToGenerate,
+    showAlert,
+    setItems,
+  ]);
 
   const historyItems = useTTSAudioHistoryStore((state) => state.historyItems);
   const lastAudioUrl =
@@ -269,13 +281,18 @@ const TTSPage = () => {
 
   const handleSave = useCallback(async () => {
     try {
-      await uploadTTSProjectData(projectData, items, setProjectData);
-      showAlert('프로젝트 저장 완료', 'default');
+      const response = await uploadTTSProjectData(projectData, items, setProjectData, setItems);
+      // 새 프로젝트인 경우 URL 업데이트
+      if (!projectData.projectId && response?.ttsProject?.id) {
+        window.history.replaceState(null, '', `/tts/${response.ttsProject.id}`);
+      }
+      showAlert('프로젝트가 저장되었습니다.', 'default');
     } catch (error) {
       console.error('프로젝트 저장 오류:', error);
-      showAlert('프로젝트 저장 중 오류가 발생했습니다.', 'destructive');
+      showAlert('프로젝트 저장에 실패했습니다.', 'destructive');
     }
-  }, [projectData, items, setProjectData, showAlert]);
+  }, [projectData, items, setProjectData, showAlert, setItems]);
+  console.log('items', items);
 
   return (
     <PageLayout

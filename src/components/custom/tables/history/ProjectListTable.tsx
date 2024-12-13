@@ -60,7 +60,7 @@ export function ProjectListTable({
 
           <TableHead className="text-body3 text-black w-[80px]">유형</TableHead>
           <TableHead className="text-body3 text-black w-[150px]">프로젝트명</TableHead>
-          <TableHead className="text-body3 text-black w-[300px]">내용</TableHead>
+          <TableHead className="text-body3 text-black w-[300px]">스크립트</TableHead>
           <TableHead className="pl-6 text-body3 text-black w-[150px]">업데이트 날짜</TableHead>
         </TableRow>
       </TableHeader>
@@ -90,7 +90,7 @@ export function ProjectListTable({
             <TableCell className="max-w-[300px] truncate text-left text-black">
               {item.script}
             </TableCell>
-            <TableCell className="pl-6 w-[150px] text-gray-500">{item.updatedAt}</TableCell>
+            <TableCell className="pl-[26px] w-[150px] text-gray-500">{item.updatedAt}</TableCell>
           </TableRow>
         ))}
       </TableBody>

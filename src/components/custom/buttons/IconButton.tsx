@@ -10,6 +10,7 @@ import {
   TbSparkles,
   TbTrash,
   TbUpload,
+  TbX,
 } from 'react-icons/tb';
 
 import { cn } from '@/lib/utils';
@@ -262,6 +263,27 @@ export function RetryFailedButton() {
       iconBgColor="bg-blue-50"
       iconColor="text-blue-600"
       width="228px"
+    />
+  );
+}
+
+export function CloseButton({
+  onClick,
+  className,
+}: {
+  readonly onClick?: () => void;
+  readonly className?: string;
+}) {
+  return (
+    <IconButton
+      icon={<TbX />}
+      label="닫기"
+      iconBgColor="bg-slate-100"
+      iconColor="text-slate-600"
+      textColor="text-gray-800"
+      width="76px"
+      onClick={onClick}
+      className={className}
     />
   );
 }

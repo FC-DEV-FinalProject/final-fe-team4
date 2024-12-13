@@ -17,7 +17,7 @@ export const FileProgressHeader = ({
   return (
     <div className="flex items-center justify-between pt-3">
       <div className="space-y-2">
-        <h1 className="text-[14px] font-bold">My work status</h1>
+        <h1 className="text-[14px] font-bold ml-2">작업 현황</h1>
         <div className="relative">
           <FileProgressDropdown
             items={files}

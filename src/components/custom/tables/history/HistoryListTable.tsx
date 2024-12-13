@@ -66,15 +66,15 @@ export function HistoryListTable({
               onCheckedChange={(checked) => onSelectAll(checked as boolean)}
             />
           </TableHead>
-          <TableHead className="pl-16 text-body3 text-black w-[150px]">유형</TableHead>
-          <TableHead className="text-body3 text-black w-[110px]">프로젝트명</TableHead>
-          <TableHead className="text-body3 text-black w-[120px]">파일명</TableHead>
-          <TableHead className="p-0 text-body3 text-black w-[200px]">내용</TableHead>
-          <TableHead className="text-body3 text-black w-[60px] text-center">상태</TableHead>
-          <TableHead className="text-body3 text-black w-[80px] text-center whitespace-nowrap">
+          <TableHead className="pl-[70px] text-body3 text-black w-[180px]">유형</TableHead>
+          <TableHead className="text-body3 text-black w-[160px]">프로젝트명</TableHead>
+          <TableHead className="text-body3 text-black w-[200px]">파일명</TableHead>
+          <TableHead className="text-body3 text-black flex-1">스크립트</TableHead>
+          <TableHead className="text-body3 text-black w-[120px] text-center">상태</TableHead>
+          <TableHead className="text-body3 text-black w-[120px] text-center pl-0">
             다운로드
           </TableHead>
-          <TableHead className="text-body3 text-black w-[130px]">업데이트 날짜</TableHead>
+          <TableHead className="text-body3 text-black w-[190px]">업데이트 날짜</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -82,38 +82,40 @@ export function HistoryListTable({
       <TableBody>
         {items.map((item, index) => (
           <TableRow
-            key={`${item.id}-${index}`} // id와 index 조합으로 고유한 key 생성
+            key={`${item.id}-${index}`}
             data-state={currentPlayingId === item.id ? 'selected' : undefined}
             className="text-body2 cursor-pointer"
             onClick={item.onClick}
           >
-            <TableCell className="pl-6 w-[50px] ">
+            <TableCell className="pl-6 w-[50px]">
               <Checkbox
                 checked={selectedItems.includes(item.id)}
                 onCheckedChange={(checked) => onSelectionChange(item.id, checked as boolean)}
                 onClick={(e) => e.stopPropagation()}
               />
             </TableCell>
-            <TableCell className="w-[100px] text-left">
-              <div className="flex items-center gap-4">
+            <TableCell className="w-[180px]">
+              <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-[14px]">
                 <PlayButton
                   isPlaying={currentPlayingId === item.id}
                   onPlay={() => onPlay(item.id)}
                   onPause={() => onPause(item.id)}
+                  className="scale-90"
                 />
                 <AudioBadge type={item.projectType} />
               </div>
             </TableCell>
-
-            <TableCell className="truncate text-left text-black">{item.projectName}</TableCell>
-            <TableCell className="truncate text-left text-black">{item.fileName}</TableCell>
-            <TableCell className="max-w-md p-0">
-              <div className="truncate text-left text-black overflow-hidden text-ellipsis">
-                {item.script}
-              </div>
+            <TableCell className="w-[160px] truncate text-left text-black">
+              {item.projectName}
             </TableCell>
-            <TableCell className="px-0">
-              <div className="flex truncate">
+            <TableCell className="w-[200px] truncate text-left text-black">
+              {item.fileName}
+            </TableCell>
+            <TableCell className="flex-1">
+              <div className="truncate text-left text-black">{item.script}</div>
+            </TableCell>
+            <TableCell className="w-[120px]">
+              <div className="flex justify-center">
                 {item.unitStatus === 'SUCCESS' ||
                 item.unitStatus === 'FAILURE' ||
                 item.unitStatus === null ? (
@@ -121,12 +123,12 @@ export function HistoryListTable({
                 ) : null}
               </div>
             </TableCell>
-            <TableCell>
+            <TableCell className="w-[120px] pl-0">
               <div className="flex items-center justify-center">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onDownload(item.id); // 다운로드 이벤트 호출
+                    onDownload(item.id);
                   }}
                   aria-label="Download file"
                 >
@@ -134,7 +136,7 @@ export function HistoryListTable({
                 </button>
               </div>
             </TableCell>
-            <TableCell className="text-gray-700 whitespace-nowrap">{item.updatedAt}</TableCell>
+            <TableCell className="w-[190px] text-gray-700 pl-[18px]">{item.updatedAt}</TableCell>
           </TableRow>
         ))}
       </TableBody>

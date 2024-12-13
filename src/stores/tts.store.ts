@@ -217,7 +217,7 @@ export const useTTSStore = create<TTSStore>((set, get) => ({
     const { items, speed, volume, pitch, language, style } = get();
     if (!items.some((item) => item.isSelected)) {
       if (showAlert) {
-        showAlert('선택된 아이템이 없습니다.', 'destructive');
+        showAlert('선택된 항목이 없습니다.', 'destructive');
       }
       return;
     }
@@ -237,7 +237,7 @@ export const useTTSStore = create<TTSStore>((set, get) => ({
     });
     if (showAlert) {
       //!TODO: 더나은 alert message를 만들어야 함
-      showAlert('TTS 옵션 설정 적용됨 ', 'default');
+      showAlert('TTS 옵션 설정이 적용되었습니다.', 'default');
     }
   },
 

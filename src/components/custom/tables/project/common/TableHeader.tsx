@@ -31,7 +31,7 @@ export const TTSTableHeader: React.FC = () => {
       <div className="w-6" />
       <div className="w-4 ml-2 mr-2" />
       <div className="w-4 ml-2 mr-2" />
-      <div>텍스트</div>
+      <div className="ml-1">텍스트</div>
       <div className="flex gap-7">
         <div className="w-[60px] text-center mr-1">속도</div>
         <div className="w-[52px] text-center mr-2">볼륨</div>

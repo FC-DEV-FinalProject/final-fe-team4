@@ -48,18 +48,15 @@ const features = [
 ];
 
 const CreateProjectDialogContent = () => {
-  const navigate = useNavigate(); // useNavigate로 이동 기능 정의
+  const navigate = useNavigate();
   const addProject = useProjectStore((state) => state.addProject);
   const [projectName] = useState('새 프로젝트');
 
-  // 프로젝트 생성 핸들러
   const handleNewProject = (type: 'TTS' | 'VC' | 'Concat', route: string) => {
     addProject({
       name: projectName,
       type: type,
     });
-
-    // 선택한 경로로 이동
     navigate(route);
   };
 
@@ -73,7 +70,7 @@ const CreateProjectDialogContent = () => {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="w-[344px] p-6 border rounded-lg shadow-sm cursor-pointer hover:shadow-lg transition-shadow duration-300"
+            className="w-[344px] p-6 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.11)] cursor-pointer hover:shadow-[0_8px_25px_rgba(0,0,0,0.18)] transition-shadow duration-300"
             onClick={() =>
               handleNewProject(
                 feature.title === 'Text to Speech'
@@ -83,7 +80,7 @@ const CreateProjectDialogContent = () => {
                     : 'Concat',
                 feature.route
               )
-            } // 클릭 핸들러 추가
+            }
           >
             <div
               className={`mt-9 w-[72px] h-[72px] ${feature.bgColor} flex items-center justify-center rounded-md mx-auto mb-6`}

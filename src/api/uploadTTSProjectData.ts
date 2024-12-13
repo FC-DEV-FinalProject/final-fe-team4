@@ -1,6 +1,6 @@
 import { TTSDetailDto, TTSSaveDto } from '@/api/aIParkAPI.schemas';
 import { saveTTSProject } from '@/api/ttsAPI';
-import { TTSItem } from '@/stores/tts.store';
+import { initialProjectData, TTSItem } from '@/stores/tts.store';
 
 type setProjectData = (data: {
   projectId: number | null;
@@ -16,7 +16,8 @@ type setProjectData = (data: {
 export const uploadTTSProjectData = async (
   projectData: TTSSaveDto,
   items: TTSItem[],
-  setProjectData: setProjectData
+  setProjectData: setProjectData,
+  setItems: (items: TTSItem[]) => void
 ) => {
   try {
     const transformedData = {
@@ -46,6 +47,18 @@ export const uploadTTSProjectData = async (
         globalVoiceStyleId: response.ttsProject.globalVoiceStyleId,
         ttsDetails: response.ttsDetails,
       });
+      setItems(
+        response.ttsDetails.map((detail: TTSDetailDto, index: number) => ({
+          id: String(detail.id),
+          enitityId: detail.id,
+          text: items[index].text || initialProjectData.fullScript,
+          isSelected: items[index].isSelected || false,
+          speed: items[index].speed || initialProjectData.globalSpeed,
+          volume: items[index].volume || initialProjectData.globalVolume,
+          pitch: items[index].pitch || initialProjectData.globalPitch,
+          style: items[index].style || String(initialProjectData.globalVoiceStyleId),
+        }))
+      );
     }
 
     return response;

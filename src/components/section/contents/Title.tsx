@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { TbCheck, TbPencil, TbX } from 'react-icons/tb';
-import { Link } from 'react-router-dom';
+import { TbCheck, TbPencil } from 'react-icons/tb';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { SaveButton } from '@/components/custom/buttons/IconButton';
+import { CloseButton, SaveButton } from '@/components/custom/buttons/IconButton';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -35,11 +35,11 @@ const Title = ({
   onClose,
   onProjectNameChange,
 }: TitleProps) => {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(projectTitle);
   const handleSaveVC = useVCStore((state) => state.handleSave);
 
-  // projectTitle prop이 변경될 때마다 editTitle 업데이트
   useEffect(() => {
     setEditTitle(projectTitle);
   }, [projectTitle]);
@@ -56,6 +56,11 @@ const Title = ({
       handleSaveVC();
     }
     onSave?.();
+  };
+
+  const handleClose = () => {
+    onClose?.();
+    navigate('/project');
   };
 
   if (variant === 'recent') {
@@ -127,13 +132,7 @@ const Title = ({
         </div>
         <div className="flex items-center gap-2 -mt-1">
           <SaveButton onClick={handleSaveClick} />
-          <button
-            onClick={onClose}
-            className="flex items-center justify-center px-2.5 py-2 rounded-md border border-gray-200 text-gray-900 hover:bg-gray-50"
-          >
-            <TbX className="w-5 h-5" />
-            <span className="text-sm font-medium ml-1">닫기</span>
-          </button>
+          <CloseButton onClick={handleClose} />
         </div>
       </div>
     </div>

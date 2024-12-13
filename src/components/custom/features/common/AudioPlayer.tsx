@@ -135,7 +135,7 @@ const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
         ref={ref}
         className={cn(
           'flex items-center gap-4 w-full bg-white rounded-lg',
-          mode === PlayerMode.NORMAL ? 'py-7' : 'w-[362px] max-[1200px]:w-[200px]',
+          mode === PlayerMode.NORMAL ? 'px-10 py-7' : 'w-[362px] max-[1200px]:w-[200px]',
           className
         )}
       >

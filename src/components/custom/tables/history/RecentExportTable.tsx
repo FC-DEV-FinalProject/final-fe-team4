@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { fetchProjectByType, fetchRecentExports } from '@/api/workspaceAPI';
 import { PlayButton } from '@/components/custom/buttons/PlayButton';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import {
   Table,
@@ -47,8 +47,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ unitStatus }) => {
   const status = unitStatus === null ? 'NONE' : unitStatus;
 
   return (
-    <div className="flex justify-start">
-      <Badge variant={variantMap[status] || 'failed'}>
+    <div className="flex justify-start whitespace-nowrap">
+      <Badge variant={variantMap[status] || 'failed'} className="whitespace-nowrap">
         <TbCircleFilled className="w-2 h-2 mr-2" />
         {textMap[status]}
       </Badge>
@@ -111,7 +111,7 @@ export function RecentExportTable() {
         variant: 'destructive',
       });
 
-      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
     }
   };
 
@@ -157,7 +157,7 @@ export function RecentExportTable() {
         variant: 'destructive',
       });
 
-      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
       return;
     }
 
@@ -181,7 +181,7 @@ export function RecentExportTable() {
           variant: 'default',
         });
 
-        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
       })
       .catch((error) => {
         console.error('다운로드 중 오류 발생:', error);
@@ -192,7 +192,7 @@ export function RecentExportTable() {
         });
 
         // 알림 자동 제거
-        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
       });
   };
 
@@ -201,7 +201,6 @@ export function RecentExportTable() {
       {alert.visible && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
           <Alert variant={alert.variant}>
-            <AlertTitle>{alert.variant === 'default' ? '성공' : '오류'}</AlertTitle>
             <AlertDescription>{alert.message}</AlertDescription>
           </Alert>
         </div>
@@ -217,62 +216,58 @@ export function RecentExportTable() {
         </p>
       </div>
       <Table className="table-fixed w-full">
-        <TableHeader className="bg-gray-50">
+        <TableHeader className="bg-gray-50 border-t">
           <TableRow>
-            <TableHead className="pl-16 text-body3 text-black w-[150px]">유형</TableHead>
-            <TableHead className="text-body3 text-black w-[110px] truncate">프로젝트명</TableHead>
-            <TableHead className="text-body3 text-black w-[100px]">파일명</TableHead>
-            <TableHead className="p-0 text-body3 text-black w-[200px]">내용</TableHead>
-            <TableHead className="text-body3 text-black w-[60px] text-center truncate">
-              상태
-            </TableHead>
-            <TableHead className="text-body3 text-black w-[80px] text-center whitespace-nowrap">
-              다운로드
-            </TableHead>
-            <TableHead className="text-body3 text-black w-[130px] truncate">
-              업데이트 날짜
-            </TableHead>
+            <TableHead className="pl-[70px] text-body3 text-black w-[180px]">유형</TableHead>
+            <TableHead className="text-body3 text-black w-[160px]">프로젝트명</TableHead>
+            <TableHead className="text-body3 text-black w-[200px]">파일명</TableHead>
+            <TableHead className="text-body3 text-black flex-1">스크립트</TableHead>
+            <TableHead className="text-body3 text-black w-[100px] text-center">상태</TableHead>
+            <TableHead className="text-body3 text-black w-[140px] text-center">다운로드</TableHead>
+            <TableHead className="text-body3 text-black w-[160px] pr-4">업데이트 날짜</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="border-b">
           {items.map((item, index) => {
-            const metaId = item.metaId ?? `meta-${index}`; // metaId 기본값 설정
-            const projectId = item.id ?? `project-${index}`; // projectId 기본값 설정
-            const key = `${projectId}-${metaId}`; // 고유한 key 생성
-            const playing = isPlaying(projectId, metaId); // 정확히 매칭되는지 확인
+            const metaId = item.metaId ?? `meta-${index}`;
+            const projectId = item.id ?? `project-${index}`;
+            const key = `${projectId}-${metaId}`;
+            const playing = isPlaying(projectId, metaId);
 
             return (
               <TableRow
-                key={key} // 고유 key 설정
+                key={key}
                 data-state={playing ? 'selected' : undefined}
                 onClick={() =>
                   handleProjectClick(projectId, item.type.toUpperCase() as 'TTS' | 'VC' | 'CONCAT')
                 }
                 className="cursor-pointer"
               >
-                <TableCell className="w-[100px] text-left">
+                <TableCell className="w-[180px]">
                   <div
-                    onClick={(e) => e.stopPropagation()} // 이벤트 전파 방지
-                    className="flex items-center gap-4"
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex items-center gap-[14px]"
                   >
                     <PlayButton
                       isPlaying={playing}
                       onPlay={() => handlePlay(projectId, metaId, item.url || '')}
                       onPause={() => handlePause()}
+                      className="scale-90"
                     />
                     {AudioBadge(item.type)}
                   </div>
                 </TableCell>
-
-                <TableCell className="truncate text-left text-black">{item.projectName}</TableCell>
-                <TableCell className="truncate text-left text-black">{item.fileName}</TableCell>
-                <TableCell className="max-w-md p-0">
-                  <div className="truncate text-left text-black overflow-hidden text-ellipsis">
-                    {item.content}
-                  </div>
+                <TableCell className="w-[160px] truncate text-left text-black">
+                  {item.projectName}
                 </TableCell>
-                <TableCell className="px-0 truncate">
-                  <div className="flex">
+                <TableCell className="w-[200px] truncate text-left text-black">
+                  {item.fileName}
+                </TableCell>
+                <TableCell className="flex-1">
+                  <div className="truncate text-left text-black">{item.content}</div>
+                </TableCell>
+                <TableCell className="w-[100px]">
+                  <div className="flex justify-center">
                     {item.unitStatus === 'SUCCESS' ||
                     item.unitStatus === 'FAILURE' ||
                     item.unitStatus === null ? (
@@ -280,11 +275,11 @@ export function RecentExportTable() {
                     ) : null}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="w-[140px]">
                   <div className="flex items-center justify-center">
                     <button
                       onClick={(e) => {
-                        e.stopPropagation(); // 이벤트 전파 방지
+                        e.stopPropagation();
                         handleDownload(item.url || '', item.fileName);
                       }}
                       aria-label="Download file"
@@ -293,7 +288,9 @@ export function RecentExportTable() {
                     </button>
                   </div>
                 </TableCell>
-                <TableCell className="text-gray-700 whitespace-nowrap">{item.createdAt}</TableCell>
+                <TableCell className="text-gray-700 w-[160px] pl-[30px] pr-4">
+                  {item.createdAt}
+                </TableCell>
               </TableRow>
             );
           })}
