@@ -30,5 +30,5 @@ export const SIGNUP_VALIDATION_PATTERNS = {
 
 export const FILE_CONSTANTS = {
   MAX_FILE_SIZE: 1024 * 1024, // 1MB
-  ERROR_TIMEOUT: 3000, // 3초
+  ERROR_TIMEOUT: 2000, // 2초
 } as const;

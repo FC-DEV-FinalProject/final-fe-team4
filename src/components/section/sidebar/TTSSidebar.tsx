@@ -37,7 +37,7 @@ const TTSSidebar: React.FC = () => {
   });
   const showAlert = useCallback((message: string, variant: 'default' | 'destructive') => {
     setAlert({ visible: true, message, variant });
-    setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+    setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
   }, []);
 
   useEffect(() => {

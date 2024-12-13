@@ -147,7 +147,7 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
 
         <TabsContent value="profile">
           <h2 className="text-lg font-semibold mb-4">나의 회원정보</h2>
-          <Separator className="h-[1px] bg-gray-200 mb-6 w-full" />
+          <Separator className="h-[1px] bg-gray-200 mb-6 max-w-[600px]" />
           <Form {...profileForm}>
             <form
               onSubmit={profileForm.handleSubmit(onProfileSubmit)}
@@ -157,7 +157,7 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
                 control={profileForm.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="flex items-center gap-4">
+                  <FormItem className="flex items-center gap-4 ml-1">
                     <div className="w-[240px]">
                       <FormLabel className="text-black font-medium">
                         이메일 (아이디)
@@ -176,8 +176,8 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
                   </FormItem>
                 )}
               />
-              <Separator className="h-[1px]  bg-gray-200 w-full" />
-              <div className="flex  items-center gap-4">
+              <Separator className="h-[1px] bg-gray-200 max-w-[600px]" />
+              <div className="flex  items-center gap-4 ml-1">
                 <div className="w-[240px]">
                   <FormLabel className="w-[240px] h-[58px] text-black font-medium">
                     사진
@@ -194,12 +194,12 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
                   </div>
                 </div>
               </div>
-              <Separator className="h-[1px] bg-gray-200 w-full" />
+              <Separator className="h-[1px] bg-gray-200 max-w-[600px]" />
               <FormField
                 control={profileForm.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem className="flex items-center gap-4">
+                  <FormItem className="flex items-center gap-4 ml-1">
                     <div className="w-[240px] h-[55px] flex items-center">
                       <FormLabel className="text-black font-medium">
                         이름 <span className="text-red-500">*</span>
@@ -214,12 +214,12 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
                   </FormItem>
                 )}
               />
-              <Separator className="h-[1px] bg-gray-200 w-full" />
+              <Separator className="h-[1px] bg-gray-200 max-w-[600px]" />
               <FormField
                 control={profileForm.control}
                 name="phoneNumber"
                 render={({ field }) => (
-                  <FormItem className="flex items-center gap-4">
+                  <FormItem className="flex items-center gap-4 ml-1">
                     <div className="w-[240px] h-[55px] flex items-center">
                       <FormLabel className="text-black font-medium">
                         전화번호 <span className="text-red-500">*</span>
@@ -249,7 +249,7 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
 
         <TabsContent value="security">
           <h2 className="text-lg font-semibold mb-4">비밀번호 설정</h2>
-          <Separator className="h-[1px] bg-gray-200 mb-6 w-full" />
+          <Separator className="h-[1px] bg-gray-200 mb-6 max-w-[600px]" />
           <Form {...passwordForm}>
             <form
               onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}
@@ -261,7 +261,7 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
                 name="currentPassword"
                 render={({ field }) => (
                   <FormItem className="flex items-center gap-4">
-                    <FormLabel className="text-black font-medium w-[240px]">
+                    <FormLabel className="text-black font-medium w-[240px] ml-1">
                       현재 비밀번호 <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
@@ -280,7 +280,7 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
                 name="newPassword"
                 render={({ field }) => (
                   <FormItem className="flex items-center gap-4">
-                    <FormLabel className="text-black font-medium w-[240px]">
+                    <FormLabel className="text-black font-medium w-[240px] ml-1">
                       새 비밀번호 <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
@@ -299,7 +299,7 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem className="flex items-center gap-4">
-                    <FormLabel className="text-black font-medium w-[240px]">
+                    <FormLabel className="text-black font-medium w-[240px] ml-1">
                       새 비밀번호 확인 <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
@@ -319,7 +319,7 @@ const EditProfileForm = ({ defaultValues, avatarUrl }: EditProfileFormProps) => 
         </TabsContent>
       </Tabs>
 
-      <Separator className="h-[1px] bg-gray-200 mt-6 mb-16" />
+      <Separator className="h-[1px] bg-gray-200 mt-6 mb-16 max-w-[600px]" />
       <div className="flex space-x-4">
         <Button type="button" size="sm" variant="outline">
           취소

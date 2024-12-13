@@ -174,9 +174,9 @@ const VCPage = () => {
 
       try {
         const response = await vcLoad(Number(id));
-        if (!response.data) return;
+        if (!response?.data) return;
 
-        const { vcProject, vcDetails } = response.data;
+        const { vcProjectRes: vcProject, vcDetailsRes: vcDetails } = response.data;
 
         if (vcProject) {
           setProjectData({
@@ -190,14 +190,16 @@ const VCPage = () => {
             vcDetails.map((detail) => ({
               id: String(detail.id),
               detailId: detail.id,
-              fileName: detail.fileName || '',
+              fileName: detail.srcAudio?.split('/').pop() || '',
               text: detail.unitScript || '',
               isSelected: detail.isChecked || false,
               status: '대기중',
               file: undefined,
+              srcAudio: detail.srcAudio,
             }))
           );
         }
+        console.log('vcDetails', vcDetails);
       } catch (error) {
         console.error('VC 프로젝트 로드 실패:', error);
         showAlert('프로젝트 로드에 실패했습니다.', 'destructive');
@@ -223,9 +225,9 @@ const VCPage = () => {
       footer={<AudioFooter audioUrl={currentAudioUrl} type="VC" label={currentFileName} />}
     >
       {alert.show && (
-        <div className="absolute left-1/2 -translate-x-1/2 top-6">
-          <Alert variant={alert.variant} className="w-[360px] bg-white">
-            <AlertDescription className="text-sm">{alert.message}</AlertDescription>
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+          <Alert variant={alert.variant} className="w-[360px]">
+            <AlertDescription>{alert.message}</AlertDescription>
           </Alert>
         </div>
       )}

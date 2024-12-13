@@ -60,15 +60,6 @@ interface VCStore {
   resetStore: () => void;
 }
 
-interface VCProjectResponse {
-  success: boolean;
-  data: {
-    vcProjectRes: {
-      id: number;
-    };
-  };
-}
-
 // useFileUpload hooks의 로직을 store에 맞게 재구현
 const handleAudioUpload = (
   onSuccess: (items: VCItem[]) => void,
@@ -235,15 +226,24 @@ export const useVCStore = create<VCStore>((set, get) => ({
   handleFileUpload: (files) => {
     const { handleFiles } = handleTextUpload((texts) => {
       const { items, updateItem } = get();
-      items.forEach((item) => {
-        if (item.isSelected) {
-          updateItem(item.id, { text: texts[0] || '' });
+      const selectedItems = items.filter((item) => item.isSelected);
+
+      selectedItems.forEach((item, index) => {
+        if (index < texts.length) {
+          updateItem(item.id, {
+            text: texts[index],
+            unitScript: texts[index],
+          });
         }
       });
     });
     handleFiles(files);
   },
-  handleTextChange: (id, newText) => get().updateItem(id, { text: newText }),
+  handleTextChange: (id, newText) =>
+    get().updateItem(id, {
+      text: newText,
+      unitScript: newText,
+    }),
   handlePlay: (id: string) => {
     const state = get();
     const item = state.items.find((item) => item.id === id);
@@ -341,39 +341,56 @@ export const useVCStore = create<VCStore>((set, get) => ({
 
     try {
       const saveData = {
-        projectId: projectData.projectId ?? undefined,
+        projectId: projectData.projectId,
         projectName: projectData.projectName,
-        srcFiles: items.map((item) => ({
-          detailId: item.detailId || undefined,
-          localFileName: item.file ? item.fileName : undefined,
-          unitScript: item.text,
-          isChecked: item.isSelected,
-        })),
-        trgFiles: [
-          {
-            localFileName: undefined,
-            s3MemberAudioMetaId: undefined,
-          },
-        ],
+        srcFiles: items
+          .filter((item) => item.isSelected)
+          .map((item) => ({
+            detailId: item.detailId || null,
+            localFileName: item.file ? item.fileName : null,
+            unitScript: item.unitScript || item.text || '',
+            isChecked: true,
+          })),
+        trgFiles: [],
       };
 
       const files = items
-        .filter((item) => item.file && !item.detailId)
+        .filter((item) => item.isSelected && item.file)
         .map((item) => item.file as File);
 
-      const response = (await saveVCProject(saveData, files)) as VCProjectResponse;
+      const response = await saveVCProject(saveData, files);
 
-      if (response.success) {
-        // 프로젝트 ID 업데이트 (새 프로젝트인 경우)
-        if (response.data?.vcProjectRes?.id && !projectData.projectId) {
-          set({
-            projectData: {
-              ...projectData,
-              projectId: response.data.vcProjectRes.id,
-            },
-          });
+      if (response?.data?.vcProjectRes) {
+        if (!projectData.projectId && response.data.vcProjectRes.id) {
+          window.history.replaceState(null, '', `/vc/${response.data.vcProjectRes.id}`);
         }
-        // 저장 성공 메시지는 항상 표시
+        // 프로젝트 ID 업데이트
+        set({
+          projectData: {
+            ...projectData,
+            projectId: response.data.vcProjectRes.id,
+          },
+        });
+
+        // 저장된 아이템 상태 업데이트
+        if (response.data?.vcDetailsRes) {
+          const updatedItems = items.map((item) => {
+            const matchingDetail = response.data!.vcDetailsRes.find(
+              (detail) => detail.unitScript === (item.unitScript || item.text)
+            );
+            if (matchingDetail) {
+              return {
+                ...item,
+                detailId: matchingDetail.id,
+                file: null,
+                srcAudio: matchingDetail.srcAudio,
+              };
+            }
+            return item;
+          });
+          set({ items: updatedItems });
+        }
+
         get().showAlert('프로젝트가 저장되었습니다.', 'default');
       }
     } catch (error) {

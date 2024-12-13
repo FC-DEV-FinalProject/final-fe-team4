@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TbArrowsHorizontal, TbChevronLeft, TbChevronRight } from 'react-icons/tb';
+import { TbChevronLeft, TbChevronRight, TbDots } from 'react-icons/tb';
 
 import { ButtonProps, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -79,7 +79,7 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
     className={cn('flex h-9 w-9 items-center justify-center', className)}
     {...props}
   >
-    <TbArrowsHorizontal className="h-4 w-4" />
+    <TbDots className="h-4 w-4" />
     <span className="sr-only">More pages</span>
   </span>
 );

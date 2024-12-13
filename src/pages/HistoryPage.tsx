@@ -8,7 +8,7 @@ import MainContents from '@/components/section/contents/MainContents';
 import Title from '@/components/section/contents/Title';
 import PaginationFooter from '@/components/section/footer/PaginationFooter';
 import MainHeader from '@/components/section/header/MainHeader';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import PageLayout from '@/layouts/PageLayout';
 import { formatUpdatedAt } from '@/utils/dateUtils';
 
@@ -78,7 +78,7 @@ const HistoryPage = () => {
         variant: 'destructive',
       });
 
-      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
     }
   };
 
@@ -109,8 +109,6 @@ const HistoryPage = () => {
     // 상태를 즉시 업데이트
     setCurrentPlayingId(id);
     setAudio(newAudio);
-
-    console.log('Audio is now playing:', id);
   };
 
   const handlePause = () => {
@@ -118,6 +116,7 @@ const HistoryPage = () => {
       audio.pause(); // 오디오 재생 멈춤
       setAudio(null); // 상태 초기화
     }
+    setCurrentPlayingId(null); // 재생 중인 ID 초기화
   };
 
   const handleDownload = (url: string, fileName: string) => {
@@ -128,7 +127,7 @@ const HistoryPage = () => {
         variant: 'destructive',
       });
 
-      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
       return;
     }
 
@@ -158,7 +157,7 @@ const HistoryPage = () => {
           variant: 'default',
         });
 
-        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
       })
       .catch((error) => {
         console.error('다운로드 중 오류 발생:', error);
@@ -169,7 +168,7 @@ const HistoryPage = () => {
         });
 
         // 알림 자동 제거
-        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+        setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
       });
   };
 
@@ -187,7 +186,7 @@ const HistoryPage = () => {
       // 현재 페이지 데이터 재로드
       loadProjects(currentPage);
       setIsDialogOpen(false);
-      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
     } catch (error) {
       console.error('삭제 중 오류:', error);
       setAlert({
@@ -196,7 +195,7 @@ const HistoryPage = () => {
         variant: 'destructive',
       });
 
-      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 3000);
+      setTimeout(() => setAlert({ visible: false, message: '', variant: 'default' }), 2000);
     }
   };
 
@@ -234,7 +233,6 @@ const HistoryPage = () => {
       {alert.visible && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
           <Alert variant={alert.variant}>
-            <AlertTitle>{alert.variant === 'default' ? '성공' : '오류'}</AlertTitle>
             <AlertDescription>{alert.message}</AlertDescription>
           </Alert>
         </div>
@@ -281,7 +279,7 @@ const HistoryPage = () => {
 
                 setTimeout(
                   () => setAlert({ visible: false, message: '', variant: 'default' }),
-                  3000
+                  2000
                 );
               }
             },
@@ -308,6 +306,7 @@ const HistoryPage = () => {
         selectedItemsCount={selectedMetaIds.length}
         onSearch={handleSearch}
         totalItemsCount={totalItemsCount}
+        currentPlayingId={currentPlayingId ?? undefined}
       />
       <DeleteConfirm open={isDialogOpen} onOpenChange={setIsDialogOpen} onConfirm={handleDelete} />
     </PageLayout>

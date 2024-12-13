@@ -4,27 +4,30 @@ import { TbCircleCheckFilled, TbCircleXFilled } from 'react-icons/tb';
 
 import { cn } from '@/lib/utils';
 
-const alertVariants = cva('relative w-full rounded-lg border p-4 flex items-center gap-2', {
-  variants: {
-    variant: {
-      default:
-        'bg-green-50 text-green-600 border-green-600/50 [&>svg]:text-green-600 dark:text-green-600 dark:border-green-900/50 dark:dark:border-green-900',
-      destructive:
-        'border-red-500/50 text-red-600 dark:border-red-500 [&>svg]:text-red-600 dark:text-red-600 dark:border-red-900/50 dark:dark:border-red-900 bg-red-50',
+const alertVariants = cva(
+  'relative w-full rounded-lg p-5 flex items-center gap-3 animate-in fade-in-0 slide-in-from-top-1 duration-300',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-green-100/80 text-green-600 [&>svg]:text-green-600 dark:text-green-600 shadow-[0_2px_6px_-1px_rgba(0,128,0,0.3),0_1px_4px_-2px_rgba(0,128,0,0.2)]',
+        destructive:
+          'text-red-600 [&>svg]:text-red-600 dark:text-red-600 bg-red-100/80 shadow-[0_2px_6px_-1px_rgba(220,38,38,0.3),0_1px_4px_-2px_rgba(220,38,38,0.2)]',
+      },
     },
-  },
-  defaultVariants: {
-    variant: 'default',
-  },
-});
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+);
 
 const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
 >(({ className, variant, ...props }, ref) => (
   <div ref={ref} role="alert" className={cn(alertVariants({ variant }), className)} {...props}>
-    {variant === 'default' && <TbCircleCheckFilled className="h-5 w-5 text-gray-600" />}
-    {variant === 'destructive' && <TbCircleXFilled className="h-5 w-5 text-red-600" />}
+    {variant === 'default' && <TbCircleCheckFilled className="h-6 w-6 text-gray-600" />}
+    {variant === 'destructive' && <TbCircleXFilled className="h-6 w-6 text-red-600" />}
     {props.children}
   </div>
 ));
@@ -34,7 +37,7 @@ const AlertTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<H
   ({ className, ...props }, ref) => (
     <h5
       ref={ref}
-      className={cn('mb-1 font-medium leading-none tracking-tight', className)}
+      className={cn('mb-1.5 font-medium leading-none tracking-tight text-base', className)}
       {...props}
     />
   )
@@ -45,7 +48,7 @@ const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('text-sm [&_p]:leading-relaxed', className)} {...props} />
+  <div ref={ref} className={cn('text-base leading-relaxed', className)} {...props} />
 ));
 AlertDescription.displayName = 'AlertDescription';
 

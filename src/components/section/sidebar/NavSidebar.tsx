@@ -68,26 +68,30 @@ export function NavSidebar() {
 
   return (
     <div
-      className={`flex h-screen w-[104px] flex-col border-r bg-white px-6 group/navbar ${isExpanded ? 'expanded w-[244px]' : ''}`}
+      className={`flex h-screen w-[104px] flex-col border-r bg-white group/navbar ${
+        isExpanded ? 'expanded w-[244px] px-6' : 'px-4'
+      }`}
     >
-      <div className=" border-b flex items-center">
-        <div className="h-[91px] w-full flex items-center gap-2">
+      <div className="border-b flex items-center">
+        <div
+          className={`h-[91px] w-full flex items-center ${isExpanded ? 'px-6' : 'justify-center'}`}
+        >
           {/* 미니 로고 */}
           <span
             className={`flex items-center transition-opacity duration-300 ${
               isExpanded ? 'opacity-0 hidden' : 'opacity-100'
             }`}
           >
-            <img src={logomini} alt="AI" className="h-6 w-auto" />
+            <img src={logomini} alt="AI" className="h-8 w-auto" />
           </span>
 
           {/* 풀 로고 */}
           <span
-            className={`transition-opacity duration-300 ${
+            className={`flex items-center transition-opacity duration-300 ${
               isExpanded ? 'opacity-100' : 'opacity-0 hidden'
             }`}
           >
-            <img src={logofull} alt="AI PARK" className="h-6 w-auto" />
+            <img src={logofull} alt="AI PARK" className="h-8 w-auto" />
           </span>
         </div>
       </div>
@@ -96,9 +100,8 @@ export function NavSidebar() {
 
       {/* Dialog for Create Project */}
       <Dialog>
-        {/* Dialog Trigger */}
         <DialogTrigger asChild>
-          <Button size="icon" icon className="mt-6">
+          <Button size="icon" icon className="mt-6 mx-auto">
             새 프로젝트 생성
           </Button>
         </DialogTrigger>
@@ -133,11 +136,11 @@ export function NavSidebar() {
         <Separator className="my-4" />
         <div className="pt-2 pb-3">
           <h2
-            className={`pt-2 pb-3 text-overline ${
-              isExpanded ? 'ml-2 text-left' : 'ml-0 text-center'
+            className={`pt-2 pb-3 text-gray-800 ${
+              isExpanded ? 'ml-2 text-left text-sm font-medium' : 'text-center text-xs font-medium'
             }`}
           >
-            Workspace
+            워크스페이스
           </h2>
         </div>
         <div className="flex flex-col w-full gap-3">
@@ -154,11 +157,13 @@ export function NavSidebar() {
           ))}
         </div>
       </div>
-      <div className="mt-auto h-[93px]">
+      <div className="mt-auto h-[93px] flex flex-col">
         <Separator />
-        <button className="mt-9 ml-4" onClick={() => setIsExpanded(!isExpanded)}>
-          <TbLayoutSidebar className="w-6 h-6 group-[.expanded]/navbar:text-gray-300 text-black" />
-        </button>
+        <div className={`flex ${isExpanded ? 'justify-start pl-4' : 'justify-center'} mt-9`}>
+          <button onClick={() => setIsExpanded(!isExpanded)}>
+            <TbLayoutSidebar className="w-6 h-6 group-[.expanded]/navbar:text-gray-300 text-black" />
+          </button>
+        </div>
       </div>
     </div>
   );

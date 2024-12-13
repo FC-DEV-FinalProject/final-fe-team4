@@ -239,10 +239,10 @@ export interface TTSSpecificResponse {
 }
 
 export interface ResponseDto<T = unknown> {
-  code?: number;
-  message?: string;
-  success?: boolean;
-  data?: T; // 제네릭으로 데이터를 확장 가능하도록 설계
+  success: boolean;
+  code: number;
+  message: string;
+  data?: T;
 }
 
 export type AudioFileDtoAudioType =
@@ -255,18 +255,19 @@ export const AudioFileDtoAudioType = {
 } as const;
 
 export interface AudioFileDto {
-  audioType?: AudioFileDtoAudioType;
-  isChecked?: boolean;
-  localFileName?: string;
-  s3MemberAudioMetaId?: number;
+  detailId?: number | null;
+  localFileName?: string | null;
   unitScript?: string;
+  isChecked?: boolean;
+  audioType?: 'VC_SRC' | 'VC_TRG' | 'CONCAT';
+  s3MemberAudioMetaId?: number | null;
 }
 
 export interface VCSaveDto {
-  projectId?: number;
-  projectName?: string;
-  srcFiles?: AudioFileDto[];
-  trgFiles?: AudioFileDto[];
+  projectId: number | null;
+  projectName: string;
+  srcFiles: VCSrcFile[];
+  trgFiles: VCTrgFile[];
 }
 
 export interface Project {
@@ -313,4 +314,51 @@ export interface Export {
   script: string | null;
   createdAt?: string;
   updatedAt?: string;
+}
+
+// VC 관련 타입 정의 수정
+export interface VCAudioMeta {
+  id: number;
+  audioUrl: string;
+}
+
+export interface VCProjectResponse {
+  id: number;
+  projectName: string;
+  trgAudios: VCAudioMeta[];
+}
+
+export interface VCDetailResponse {
+  id: number;
+  projectId: number;
+  isChecked: boolean;
+  unitScript: string;
+  srcAudio: string | null;
+  genAudios: VCAudioMeta[];
+}
+
+export interface VCLoadResponse {
+  vcProjectRes: VCProjectResponse;
+  vcDetailsRes: VCDetailResponse[];
+}
+
+export interface VCSrcFile {
+  detailId: number | null;
+  localFileName: string | null;
+  unitScript: string;
+  isChecked: boolean;
+}
+
+export interface VCTrgFile {
+  audioType: string;
+  localFileName: string | null;
+  s3MemberAudioMetaId: number | null;
+}
+
+// ResponseDto 수정 (기존 정의 교체)
+export interface ResponseDto<T = unknown> {
+  success: boolean;
+  code: number;
+  message: string;
+  data?: T;
 }
