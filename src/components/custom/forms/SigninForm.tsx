@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 import { login } from '@/api/authAPI';
@@ -16,6 +17,7 @@ const SigninForm = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [rememberEmail, setRememberEmail] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +54,10 @@ const SigninForm = () => {
     }
   }, []);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="w-[432px] h-[600px] flex-shrink-0 rounded-xl border border-gray-300 bg-white flex flex-col">
       <div className="mt-[56px] mb-[80px] flex justify-center">
@@ -76,14 +82,24 @@ const SigninForm = () => {
             비밀번호
           </label>
         </div>
-        <Input
-          variant="signin"
-          type="password"
-          placeholder="8자 이상의 비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mt-2 w-[360px] h-[50px] rounded-lg border border-gray-300 bg-white px-4 font-pretendard"
-        />
+        <div className="relative">
+          <Input
+            variant="signin"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="8자 이상의 비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-2 w-[360px] h-[50px] rounded-lg border border-gray-300 bg-white px-4 font-pretendard"
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute right-3 top-1/2 transform -translate-y-[31%] text-gray-400 hover:text-gray-700 transition-colors"
+            aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+          >
+            {showPassword ? <FiEye className="w-5 h-5" /> : <FiEyeOff className="w-5 h-5" />}
+          </button>
+        </div>
 
         <div className="mt-2 flex items-center justify-between text-base font-pretendard">
           <div className="flex items-center gap-2">
