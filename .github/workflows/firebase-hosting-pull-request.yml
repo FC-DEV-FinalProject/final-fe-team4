@@ -16,7 +16,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: 1.1.10
+          bun-version: 1.2.0
       - name: Create .env file
         run: echo "${{ secrets.ENV_FILE }}" > .env
       - run: bun install
@@ -25,6 +25,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AIPARK_FOUR_T }}
-          projectId: aipark-four-t
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_POPOMANCE_STUDIO }}
+          projectId: popomance-studio
           expires: 7d
