@@ -1,0 +1,17 @@
+addReviewers: true
+
+reviewers:
+  - nakyeonko3
+  - sjgaru-dev
+  - miniseung 
+  - dyeongg 
+
+addAssignees: author
+numberOfReviewers: 0
+
+skipKeywords:
+  - wip
+  - WIP
+  - draft
+  - "do not review"
+  - "not ready"

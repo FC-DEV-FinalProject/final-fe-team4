@@ -1,0 +1,48 @@
+name: 'Chromatic'
+
+on:
+  pull_request:
+    types: [opened]
+    paths:
+      - 'src/stories/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Publish to Chromatic
+        id: chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitOnceUploaded: true
+          autoAcceptChanges: 'develop'
+          onlyChanged: true
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'Storybook'
+
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Storybook 확인 [ 바로가기 ](${{ steps.chromatic.outputs.storybookUrl }})
+          edit-mode: replace

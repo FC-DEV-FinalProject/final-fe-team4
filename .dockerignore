@@ -1,0 +1,9 @@
+node_modules/
+dist/
+amplify/
+.vscode/
+.github/
+docs/
+.env
+.github/
+

@@ -1,0 +1,33 @@
+name: PR Auto Assign and Labeler
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  pr-auto:
+    name: PR Automation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v1.0.2
+        continue-on-error: true
+        with:
+          project-url: https://github.com/orgs/FC-DEV-FinalProject/projects/2
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          labeled: feat, setting, fix, docs, refactor, test
+          label-operator: OR
+
+      - uses: kentaro-m/auto-assign-action@v2.0.0
+        continue-on-error: true
+        with:
+          configuration-path: '.github/auto_assign.yml'
+
+      - uses: actions/labeler@v5
+        continue-on-error: true
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
