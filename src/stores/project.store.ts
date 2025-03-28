@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface Project {
   id: string;
@@ -36,6 +36,7 @@ export const useProjectStore = create<ProjectState>()(
     }),
     {
       name: 'project-storage',
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

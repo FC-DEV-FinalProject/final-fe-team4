@@ -65,7 +65,7 @@ const TTSPage = () => {
 
   const { id } = useParams<{ id: string }>();
   const {
-    items,
+    items = [],
     projectData,
     setItems,
     setProjectData,
