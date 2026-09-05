@@ -111,3 +111,6 @@ npm run dev
 - 각종 자동화 스크립트 구축
 
 
+
+
+<!-- Security scan triggered at 2026-09-05 07:44:16 -->
