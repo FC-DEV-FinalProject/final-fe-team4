@@ -1,0 +1,27 @@
+name: 버그 리포트
+description: 버그 보고 또는 UX/UI 개선 요청을 위한 템플릿입니다.
+title: "[bug] "
+labels: ["bug"]
+projects: ["FC-DEV-FinalProject/2"]
+body:
+  - type: textarea
+    id: bug-report
+    attributes:
+      label: 버그 리포트      
+      description: ⚠️제목으로 유추할 수도 있겠지만, 아래 항목은 가능한 적어주세요⚠️
+      placeholder: |
+        - 버그에 대한 간단한 설명 또는 UX/UI 개선 요청
+        - 해당 버그가 발생한 상황 
+        - 스크린샷 (선택)
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        - 버그에 대한 간단한 설명 
+        - UX/UI 개선 요청 (와이어프레임과 상이, 레이아웃 변경, 폰트 조절 등)
+        - 해당 버그가 발생한 상황 (아이디 28자 이상 입력, 닫기 빠른 5연속 클릭 등)
+        - 가능하다면 스크린샷
+        - 해결책의 상세한 설명
+        - 더 많은 상세 내용과 관련된 정보를 담은 기사나 URL의 참조
+        - 해결책의 일부나, 상세 내용을 깊게 이해하는데 도움이 될 만한 도표, 설계, 다이어그램 스냅샷
